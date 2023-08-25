@@ -9,7 +9,7 @@ import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
-    private var wallaby: SKShapeNode!
+    private var wallaby: SKSpriteNode!
     private var ground: SKSpriteNode!
     private var isJumping: Bool = false
     
@@ -24,17 +24,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if !isJumping {
             isJumping = true
-            wallaby.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 500))
+            wallaby.texture = SKTexture(imageNamed: "WallabyUp")
+            wallaby.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 120))
         }
     }
     
     func createWallaby(for size: CGSize) {
-        wallaby = SKShapeNode(circleOfRadius: 60)
-        
-        wallaby.fillColor = .blue
+        wallaby = SKSpriteNode(imageNamed: "WallabyDown")
+        wallaby.size = CGSize(width: 80, height: 81.74)
         wallaby.position = CGPoint(x: 150, y: self.size.height/2)
         
-        wallaby.physicsBody = SKPhysicsBody(circleOfRadius: 60)
+        wallaby.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: "WallabyDown"), size: wallaby.size)
         wallaby.physicsBody?.isDynamic = true
         wallaby.physicsBody?.allowsRotation = false
         
@@ -64,6 +64,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let bodyB = contact.bodyB
         
         if bodyA.node == wallaby || bodyB.node == wallaby {
+            wallaby.texture = SKTexture(imageNamed: "WallabyDown")
             isJumping = false
         }
     }
