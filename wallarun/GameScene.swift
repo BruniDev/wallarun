@@ -16,18 +16,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         let backgroundSound = SKAudioNode(fileNamed: "Background.mp3")
         self.addChild(backgroundSound)
-        self.backgroundColor = .gray
-        self.physicsWorld.gravity = CGVector(dx: 0, dy: -20)
+        self.backgroundColor = .white
+        self.physicsWorld.gravity = CGVector(dx: 0, dy: -30)
         self.physicsWorld.contactDelegate = self
         createWallaby(for: self.size)
         createGround(for: self.size)
+        walkWallaby()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if !isJumping {
             isJumping = true
-            wallaby.texture = SKTexture(imageNamed: "WallabyUp")
-            wallaby.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 120))
+            wallaby.texture = SKTexture(imageNamed: "WallabyJump")
+            wallaby.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 100))
         }
     }
     
@@ -46,6 +47,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         wallaby.physicsBody?.collisionBitMask = 2
         
         self.addChild(wallaby)
+    }
+    
+    func walkWallaby() {
+        let jumpAction = SKAction.run {
+            self.wallaby.texture = SKTexture(imageNamed: "WallabyUp")
+            self.wallaby.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 50))
+        }
+        let delay = SKAction.wait(forDuration: 0.4)
+        let jumpSequence = SKAction.sequence([jumpAction, delay])
+        let repeatJump = SKAction.repeatForever(jumpSequence)
+        wallaby.run(repeatJump)
     }
     
     func createGround(for size: CGSize) {
