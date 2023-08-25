@@ -9,27 +9,36 @@ import SpriteKit
 
 class WeedScene: SKScene {
     
+    // total distance vars
+    private var totalTimer: Timer?
+    private let totalPlayTime: Double = 120.0   // sec
+    
     // character stats vars
     private var life: Int = 3
     private var jumpHeightRatio: Float = 1.0    // multiply to applyImpulse
+    private var wallabyYPosition: CGFloat?
     
     // fever time vars
     private var isFeverTime: Bool = false
-    private var feverTimeLength: Double = 5.0
+    private var feverTimeLength: Double = 5.0   // sec
     
     // fever time timer vars
-    private var timer: Timer?
+    private var feverTimer: Timer?
     
     // weed vars
     private var weedCount: Int = 0
     private var weedGravitation: Double = 0
     
+    // collision vars
+    private let rockCategory: Int = 3
+    
+    // MARK: - Fever Time
     // fever time start timer
-    private func startTimer() {
+    private func startFeverTimer() {
         
         // if timer exist, stop timer
-        if timer != nil && timer!.isValid {
-            timer!.invalidate()
+        if feverTimer != nil && feverTimer!.isValid {
+            feverTimer!.invalidate()
         }
         
         if weedCount <= 2 {
@@ -50,7 +59,7 @@ class WeedScene: SKScene {
         }
         
         // fever time timer start
-        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(feverTime), userInfo: nil, repeats: false)
+        feverTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(feverTime), userInfo: nil, repeats: false)
 
     }
 
@@ -60,8 +69,8 @@ class WeedScene: SKScene {
         // if fever time ends(feverTimeLength == 1), stop timer
         if(feverTimeLength == 0) {
             
-            timer?.invalidate()
-            timer = nil
+            feverTimer?.invalidate()
+            feverTimer = nil
             
             // after timer stopped
             endFeverTime()
@@ -76,7 +85,7 @@ class WeedScene: SKScene {
         weedCount += 1
         
         isFeverTime = true
-        startTimer()
+        startFeverTimer()
     }
     
     // when fever time end, reduce stats
@@ -97,6 +106,33 @@ class WeedScene: SKScene {
             // 60% stats reduction
             jumpHeightRatio = 0.4
         }
+    }
+    
+    // MARK: - [Game System] Collision with Rocks
+    private func didBegin(_ contact: SKPhysicsContact){
+        
+        if collisionWithRock(contact) {
+            if life == 1 {
+                gameOver()
+            } else {
+                life -= 1
+                collisionEffects()
+            }
+        }
+    }
+    
+    private func collisionWithRock(_ contact: SKPhysicsContact) -> Bool {
+        return contact.bodyA.collisionBitMask == rockCategory || contact.bodyB.collisionBitMask == rockCategory
+    }
+    
+    // If wallaby hit to rock, 0.1초 정지 + 2초 깜빡깜빡
+    private func collisionEffects() {
+        
+    }
+    
+    // If life be 0, call gameOver function
+    private func gameOver() {
+        
     }
     
 }
