@@ -11,11 +11,6 @@
 		7B770FC42A98A9730010F875 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B770FC32A98A9730010F875 /* ContentView.swift */; };
 		7B770FC62A98A9740010F875 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B770FC52A98A9740010F875 /* Assets.xcassets */; };
 		7B770FC92A98A9740010F875 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B770FC82A98A9740010F875 /* Preview Assets.xcassets */; };
-		7B770FD42A98AAA90010F875 /* Wallaby.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B770FD32A98AAA90010F875 /* Wallaby.png */; };
-		7B770FD62A98AAAC0010F875 /* RockL.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B770FD52A98AAAC0010F875 /* RockL.png */; };
-		7B770FD82A98AAB50010F875 /* RockM.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B770FD72A98AAB50010F875 /* RockM.png */; };
-		7B770FDA2A98AAB90010F875 /* HeartOff.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B770FD92A98AAB90010F875 /* HeartOff.png */; };
-		7B770FDC2A98AABB0010F875 /* HeartOn.png in Resources */ = {isa = PBXBuildFile; fileRef = 7B770FDB2A98AABB0010F875 /* HeartOn.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,11 +19,6 @@
 		7B770FC32A98A9730010F875 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		7B770FC52A98A9740010F875 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7B770FC82A98A9740010F875 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		7B770FD32A98AAA90010F875 /* Wallaby.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Wallaby.png; path = "../../../../../../Desktop/하이/Wallaby.png"; sourceTree = "<group>"; };
-		7B770FD52A98AAAC0010F875 /* RockL.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RockL.png; path = "../../../../../../Desktop/하이/RockL.png"; sourceTree = "<group>"; };
-		7B770FD72A98AAB50010F875 /* RockM.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = RockM.png; path = "../../../../../../Desktop/하이/RockM.png"; sourceTree = "<group>"; };
-		7B770FD92A98AAB90010F875 /* HeartOff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HeartOff.png; path = "../../../../../../Desktop/하이/HeartOff.png"; sourceTree = "<group>"; };
-		7B770FDB2A98AABB0010F875 /* HeartOn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HeartOn.png; path = "../../../../../../Desktop/하이/HeartOn.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,7 +51,6 @@
 		7B770FC02A98A9730010F875 /* wallarun */ = {
 			isa = PBXGroup;
 			children = (
-				7B770FCF2A98AA650010F875 /* wallaby.assets */,
 				7B770FC12A98A9730010F875 /* wallarunApp.swift */,
 				7B770FC32A98A9730010F875 /* ContentView.swift */,
 				7B770FC52A98A9740010F875 /* Assets.xcassets */,
@@ -76,42 +65,6 @@
 				7B770FC82A98A9740010F875 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		7B770FCF2A98AA650010F875 /* wallaby.assets */ = {
-			isa = PBXGroup;
-			children = (
-				7B770FD22A98AA8F0010F875 /* heart */,
-				7B770FD12A98AA870010F875 /* rock */,
-				7B770FD02A98AA7E0010F875 /* wallaby */,
-			);
-			path = wallaby.assets;
-			sourceTree = "<group>";
-		};
-		7B770FD02A98AA7E0010F875 /* wallaby */ = {
-			isa = PBXGroup;
-			children = (
-				7B770FD32A98AAA90010F875 /* Wallaby.png */,
-			);
-			path = wallaby;
-			sourceTree = "<group>";
-		};
-		7B770FD12A98AA870010F875 /* rock */ = {
-			isa = PBXGroup;
-			children = (
-				7B770FD72A98AAB50010F875 /* RockM.png */,
-				7B770FD52A98AAAC0010F875 /* RockL.png */,
-			);
-			path = rock;
-			sourceTree = "<group>";
-		};
-		7B770FD22A98AA8F0010F875 /* heart */ = {
-			isa = PBXGroup;
-			children = (
-				7B770FD92A98AAB90010F875 /* HeartOff.png */,
-				7B770FDB2A98AABB0010F875 /* HeartOn.png */,
-			);
-			path = heart;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -172,13 +125,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7B770FD82A98AAB50010F875 /* RockM.png in Resources */,
 				7B770FC92A98A9740010F875 /* Preview Assets.xcassets in Resources */,
-				7B770FDA2A98AAB90010F875 /* HeartOff.png in Resources */,
-				7B770FDC2A98AABB0010F875 /* HeartOn.png in Resources */,
-				7B770FD42A98AAA90010F875 /* Wallaby.png in Resources */,
 				7B770FC62A98A9740010F875 /* Assets.xcassets in Resources */,
-				7B770FD62A98AAAC0010F875 /* RockL.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
