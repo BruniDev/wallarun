@@ -14,6 +14,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var isJumping: Bool = false
     
     override func didMove(to view: SKView) {
+        let backgroundSound = SKAudioNode(fileNamed: "Background.mp3")
+        self.addChild(backgroundSound)
         self.backgroundColor = .gray
         self.physicsWorld.gravity = CGVector(dx: 0, dy: -20)
         self.physicsWorld.contactDelegate = self
