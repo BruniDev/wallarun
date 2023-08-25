@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		67341C242A98BB2700E1579F /* WeedScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67341C232A98BB2700E1579F /* WeedScene.swift */; };
 		7B770FC22A98A9730010F875 /* wallarunApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B770FC12A98A9730010F875 /* wallarunApp.swift */; };
 		7B770FC42A98A9730010F875 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B770FC32A98A9730010F875 /* GameView.swift */; };
 		7B770FC62A98A9740010F875 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B770FC52A98A9740010F875 /* Assets.xcassets */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		67341C232A98BB2700E1579F /* WeedScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeedScene.swift; sourceTree = "<group>"; };
 		7B770FBE2A98A9730010F875 /* wallarun.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = wallarun.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B770FC12A98A9730010F875 /* wallarunApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = wallarunApp.swift; sourceTree = "<group>"; };
 		7B770FC32A98A9730010F875 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
@@ -65,6 +67,7 @@
 				7B770FC12A98A9730010F875 /* wallarunApp.swift */,
 				7B770FC32A98A9730010F875 /* GameView.swift */,
 				FDF823F12A98B7FC0057489A /* GameScene.swift */,
+				67341C232A98BB2700E1579F /* WeedScene.swift */,
 				7B770FC52A98A9740010F875 /* Assets.xcassets */,
 				7B770FC72A98A9740010F875 /* Preview Content */,
 			);
@@ -165,6 +168,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FDF823F22A98B7FC0057489A /* GameScene.swift in Sources */,
+				67341C242A98BB2700E1579F /* WeedScene.swift in Sources */,
 				7B770FC42A98A9730010F875 /* GameView.swift in Sources */,
 				7B770FC22A98A9730010F875 /* wallarunApp.swift in Sources */,
 			);
