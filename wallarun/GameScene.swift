@@ -39,6 +39,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         wallaby.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: "WallabyDown"), size: wallaby.size)
         wallaby.physicsBody?.isDynamic = true
         wallaby.physicsBody?.allowsRotation = false
+        wallaby.physicsBody?.restitution = 0.0
         
         wallaby.physicsBody?.categoryBitMask = 1
         wallaby.physicsBody?.contactTestBitMask = 2
@@ -53,6 +54,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         ground.position = CGPoint(x: self.size.width/2, y: 20)
         ground.physicsBody = SKPhysicsBody(rectangleOf: ground.size)
         ground.physicsBody?.isDynamic = false
+        ground.physicsBody?.restitution = 0.0
         
         ground.physicsBody?.categoryBitMask = 2
         ground.physicsBody?.contactTestBitMask = 1
