@@ -13,6 +13,8 @@ class GameScene: SKScene {
     private var ground: SKSpriteNode!
     
     override func didMove(to view: SKView) {
+        let backgroundSound = SKAudioNode(fileNamed: "Background.mp3")
+        self.addChild(backgroundSound)
         self.backgroundColor = .gray
         createWallaby(for: self.size)
         createGround(for: self.size)
