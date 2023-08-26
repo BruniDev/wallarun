@@ -26,7 +26,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let backgroundSound = SKAudioNode(fileNamed: "Background.mp3")
         self.addChild(backgroundSound)
         self.backgroundColor = .white
-        self.physicsWorld.gravity = CGVector(dx: 0, dy: -20)
+        self.physicsWorld.gravity = CGVector(dx: 0, dy: -15)
         self.physicsWorld.contactDelegate = self
         
         createWallaby(for: self.size)
@@ -46,7 +46,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             count += 1
         }
-
+        
         createGroundAndMove(for: self.size)
         createBackgroundAndMove(for: self.size)
         walkWallaby()
@@ -57,7 +57,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if !isJumping {
             isJumping = true
             wallaby.texture = SKTexture(imageNamed: "WallabyJump")
-            wallaby.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 35))
+            wallaby.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 30))
         }
     }
     
@@ -80,14 +80,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func walkWallaby() {
-        let jumpAction = SKAction.run {
-            self.wallaby.texture = SKTexture(imageNamed: "WallabyUp")
-            self.wallaby.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 20))
+        if !isJumping {
+            let jumpAction = SKAction.run {
+                self.wallaby.texture = SKTexture(imageNamed: "WallabyUp")
+                self.wallaby.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 20))
+            }
+            let delay = SKAction.wait(forDuration: 0.4)
+            let jumpSequence = SKAction.sequence([jumpAction, delay])
+            let repeatJump = SKAction.repeatForever(jumpSequence)
+            wallaby.run(repeatJump)
         }
-        let delay = SKAction.wait(forDuration: 0.4)
-        let jumpSequence = SKAction.sequence([jumpAction, delay])
-        let repeatJump = SKAction.repeatForever(jumpSequence)
-        wallaby.run(repeatJump)
     }
     
     func createBackgroundAndMove(for size: CGSize) {
@@ -135,9 +137,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func createRockAndMove() {
         let rockTextures = ["RockL", "RockM"]
+        let randomRock = rockTextures.randomElement()!
         
-        rock = SKSpriteNode(imageNamed: rockTextures.randomElement() ?? "RockL")
-        rock.size = CGSize(width: 62.5, height: 62.5)
+        rock = SKSpriteNode(imageNamed: randomRock)
+        rock.size = randomRock == "RockL" ? CGSize(width: 62.5, height: 62.5) : CGSize(width: 45, height: 62.5)
         rock.position = CGPoint(x: self.size.width, y: 105)
         
         rock.physicsBody = SKPhysicsBody(texture: rock.texture!, size: rock.size)
@@ -157,10 +160,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func spawnRocks() {
         let spawnRocks = SKAction.run(createRockAndMove)
-        let delay = SKAction.wait(forDuration: 3, withRange: 2)
+        let delay = SKAction.wait(forDuration: 2, withRange: 2)
         let spawnSequence = SKAction.sequence([spawnRocks, delay])
         let spawnForever = SKAction.repeatForever(spawnSequence)
         self.run(spawnForever)
+    }
+    
+    func blinkWallaby() {
+        let fadeOut = SKAction.fadeOut(withDuration: 0.2)
+        let fadeIn = SKAction.fadeIn(withDuration: 0.2)
+        let blink = SKAction.sequence([fadeOut, fadeIn])
+        let blinkRepeat = SKAction.repeat(blink, count: 3)
+        
+        wallaby.run(blinkRepeat)
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
@@ -170,6 +182,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if bodyA.node == wallaby || bodyB.node == wallaby {
             wallaby.texture = SKTexture(imageNamed: "WallabyDown")
             isJumping = false
+        }
+        
+        let wallabyBody: SKPhysicsBody
+        let otherBody: SKPhysicsBody
+        
+        if bodyA.node == wallaby {
+            wallabyBody = bodyA
+            otherBody = bodyB
+        } else if bodyB.node == wallaby {
+            wallabyBody = bodyB
+            otherBody = bodyA
+        } else {
+            return
+        }
+        
+        if wallabyBody.categoryBitMask == rockCategory || otherBody.categoryBitMask == rockCategory {
+            blinkWallaby()
         }
     }
 }
