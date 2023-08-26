@@ -19,6 +19,7 @@
 		7B770FEB2A98D4890010F875 /* Dead.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7B770FEA2A98D4890010F875 /* Dead.mp3 */; };
 		7B770FED2A98D4970010F875 /* Jump.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7B770FEC2A98D4970010F875 /* Jump.mp3 */; };
 		7B770FF12A9931620010F875 /* onBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B770FF02A9931620010F875 /* onBoardingView.swift */; };
+		7B832F7A2A9AB06D006C260A /* fevertime.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 7B832F792A9AB06D006C260A /* fevertime.mp4 */; };
 		FDC679972A9A71AC00D0EF80 /* SuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC679952A9A71AC00D0EF80 /* SuccessView.swift */; };
 		FDC679982A9A71AC00D0EF80 /* GameOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC679962A9A71AC00D0EF80 /* GameOverView.swift */; };
 		FDF823F22A98B7FC0057489A /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF823F12A98B7FC0057489A /* GameScene.swift */; };
@@ -39,6 +40,7 @@
 		7B770FEC2A98D4970010F875 /* Jump.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Jump.mp3; sourceTree = "<group>"; };
 		7B770FF02A9931620010F875 /* onBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = onBoardingView.swift; sourceTree = "<group>"; };
 		7B770FF22A9941740010F875 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		7B832F792A9AB06D006C260A /* fevertime.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = fevertime.mp4; sourceTree = "<group>"; };
 		FDC679952A9A71AC00D0EF80 /* SuccessView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuccessView.swift; sourceTree = "<group>"; };
 		FDC679962A9A71AC00D0EF80 /* GameOverView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverView.swift; sourceTree = "<group>"; };
 		FDF823F12A98B7FC0057489A /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 				7B497F852A99F7AA0067F789 /* endingView */,
 				7B770FF32A994CED0010F875 /* onBoardingView */,
 				7B770FF22A9941740010F875 /* Info.plist */,
+				7B832F792A9AB06D006C260A /* fevertime.mp4 */,
 				7B770FDD2A98C2570010F875 /* sound */,
 				7B770FC12A98A9730010F875 /* wallarunApp.swift */,
 				7B770FC32A98A9730010F875 /* GameView.swift */,
@@ -185,6 +188,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7B770FED2A98D4970010F875 /* Jump.mp3 in Resources */,
+				7B832F7A2A9AB06D006C260A /* fevertime.mp4 in Resources */,
 				7B770FE92A98D4840010F875 /* Background.mp3 in Resources */,
 				7B770FE72A98D4450010F875 /* Fevertime.mp3 in Resources */,
 				7B770FEB2A98D4890010F875 /* Dead.mp3 in Resources */,
@@ -337,7 +341,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"wallarun/Preview Content\"";
-				DEVELOPMENT_TEAM = Q535Z3S7Z3;
+				DEVELOPMENT_TEAM = JRDC32KNLZ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = wallarun/Info.plist;

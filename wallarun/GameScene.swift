@@ -47,6 +47,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var life = 2
     private var gameTime = 10
     private var isJumping: Bool = false
+    private var sample : SKVideoNode?
     
     private var lastPausedTime: TimeInterval?
     let pauseCooldown: TimeInterval = 0.6
@@ -61,6 +62,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let weedCategory = 1 << 4 as UInt32
     
     override func didMove(to view: SKView) {
+        
+        
         let backgroundSound = SKAudioNode(fileNamed: "Background.mp3")
         self.addChild(backgroundSound)
         self.backgroundColor = .white
@@ -149,12 +152,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func createBackgroundAndMove(for size: CGSize) {
+
+        
+       
         let backgroundSize = CGSize(width: 1024, height: 416.5)
         let moveLeft = SKAction.moveBy(x: -backgroundSize.width, y: 0, duration: 14.0)
         let resetPosition = SKAction.moveBy(x: backgroundSize.width, y: 0, duration: 0)
         let moveSequence = SKAction.sequence([moveLeft, resetPosition])
         let moveForever = SKAction.repeatForever(moveSequence)
-        
+  
+   
         for i in 0..<3 {
             background = SKSpriteNode(imageNamed: "BackGroundImage_Default")
             background.size = backgroundSize
@@ -167,6 +174,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func createGroundAndMove(for size: CGSize) {
+        
         let groundSize = CGSize(width: 1024, height: 105)
         let moveLeft = SKAction.moveBy(x: -groundSize.width, y: 0, duration: 3.5)
         let resetPosition = SKAction.moveBy(x: groundSize.width, y: 0, duration: 0)
@@ -373,10 +381,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //    }
     
     func startFeverTime() {
+        let sample = SKVideoNode(fileNamed: "fevertime.mp4")
+        sample.position = CGPoint(x: frame.midX,
+                                  y: frame.midY)
+        sample.size = CGSize(width: 844,height: 390)
+        self.addChild(sample)
+        sample.play()
         isFeverTime = true
         //        jumpImpulse *= 1.3
         feverTimer = Timer.scheduledTimer(withTimeInterval: feverTimeLength, repeats: false) { _ in
+            
             self.isFeverTime = false
+            sample.removeFromParent()
             //            self.jumpImpulse /= 1.3
         }
     }
@@ -386,7 +402,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func update(_ currentTime: TimeInterval) {
+   
         if isFeverTime {
+            
             switch weedCount {
             case 0:
                 jumpImpulse = 35
