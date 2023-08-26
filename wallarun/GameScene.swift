@@ -9,6 +9,9 @@ import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
+    // progress vars
+    var progressBar = ProgressBar()
+    
     private var wallaby: SKSpriteNode!
     private var ground: SKSpriteNode!
     private var background: SKSpriteNode!
@@ -23,6 +26,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsWorld.contactDelegate = self
         
         createWallaby(for: self.size)
+        
+        // Progress bar
+        progressBar.getSceneFrame(sceneFrame: frame)
+        progressBar.buildProgressBar()
+        addChild(progressBar)
+        
+        var count = 0
+        
+        // Call updateProgressBar() and count++ per every second
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+            if count > 120 { timer.invalidate() }
+            
+            self.progressBar.updateProgressBar()
+            
+            count += 1
+        }
+
         createGroundAndMove(for: self.size)
         createBackgroundAndMove(for: self.size)
         walkWallaby()
