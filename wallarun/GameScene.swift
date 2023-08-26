@@ -18,6 +18,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var rock: SKSpriteNode!
     private var isJumping: Bool = false
     
+    let wallabyCategory = 1 << 0 as UInt32
+    let groundCategory = 1 << 1 as UInt32
+    let rockCategory = 1 << 2 as UInt32
+    
     override func didMove(to view: SKView) {
         let backgroundSound = SKAudioNode(fileNamed: "Background.mp3")
         self.addChild(backgroundSound)
@@ -61,15 +65,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         wallaby = SKSpriteNode(imageNamed: "WallabyDown")
         wallaby.size = CGSize(width: 57.5, height: 58.75)
         wallaby.position = CGPoint(x: 150, y: self.size.height/2)
+        wallaby.zPosition = 1
         
         wallaby.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: "WallabyDown"), size: wallaby.size)
         wallaby.physicsBody?.isDynamic = true
         wallaby.physicsBody?.allowsRotation = false
         wallaby.physicsBody?.restitution = 0.0
         
-        wallaby.physicsBody?.categoryBitMask = 1
-        wallaby.physicsBody?.contactTestBitMask = 2
-        wallaby.physicsBody?.collisionBitMask = 2
+        wallaby.physicsBody?.categoryBitMask = wallabyCategory
+        wallaby.physicsBody?.contactTestBitMask = groundCategory | rockCategory
+        wallaby.physicsBody?.collisionBitMask = groundCategory
         
         self.addChild(wallaby)
     }
@@ -115,13 +120,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             ground.size = groundSize
             ground.position = CGPoint(x: CGFloat(i) * ground.size.width, y: 40)
             
-            ground.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: "BackGroundImage_Bottom"), size: ground.size)
+            ground.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 1024, height: 90))
             ground.physicsBody?.isDynamic = false
             ground.physicsBody?.restitution = 0.0
             
-            ground.physicsBody?.categoryBitMask = 2
-            ground.physicsBody?.contactTestBitMask = 1
-            ground.physicsBody?.collisionBitMask = 1
+            ground.physicsBody?.categoryBitMask = groundCategory
+            ground.physicsBody?.contactTestBitMask = wallabyCategory
+            ground.physicsBody?.collisionBitMask = wallabyCategory
             
             ground.run(moveForever)
             self.addChild(ground)
@@ -133,14 +138,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         rock = SKSpriteNode(imageNamed: rockTextures.randomElement() ?? "RockL")
         rock.size = CGSize(width: 62.5, height: 62.5)
-        rock.position = CGPoint(x: self.size.width, y: 110)
+        rock.position = CGPoint(x: self.size.width, y: 105)
         
-        rock.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: "RockL"), size: rock.size)
+        rock.physicsBody = SKPhysicsBody(texture: rock.texture!, size: rock.size)
         rock.physicsBody?.isDynamic = false
         
-        rock.physicsBody?.categoryBitMask = 3
-        rock.physicsBody?.contactTestBitMask = 1
-        rock.physicsBody?.collisionBitMask = 1
+        rock.physicsBody?.categoryBitMask = rockCategory
+        rock.physicsBody?.contactTestBitMask = wallabyCategory
+        rock.physicsBody?.collisionBitMask = 0
         
         let moveLeft = SKAction.moveBy(x: -self.size.width - rock.size.width, y: 0, duration: 3.6)
         let remove = SKAction.removeFromParent()
@@ -152,7 +157,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func spawnRocks() {
         let spawnRocks = SKAction.run(createRockAndMove)
-        let delay = SKAction.wait(forDuration: 3, withRange: 3)
+        let delay = SKAction.wait(forDuration: 3, withRange: 2)
         let spawnSequence = SKAction.sequence([spawnRocks, delay])
         let spawnForever = SKAction.repeatForever(spawnSequence)
         self.run(spawnForever)
