@@ -24,7 +24,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsWorld.gravity = CGVector(dx: 0, dy: -30)
         self.physicsWorld.contactDelegate = self
         createWallaby(for: self.size)
-        createGround(for: self.size)
         
         // Progress bar
         progressBar.getSceneFrame(sceneFrame: frame)
