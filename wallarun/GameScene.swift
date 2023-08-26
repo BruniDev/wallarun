@@ -16,6 +16,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var ground: SKSpriteNode!
     private var background: SKSpriteNode!
     private var rock: SKSpriteNode!
+    private var lifeIcon: SKSpriteNode!
+    private var lifeGroup = SKSpriteNode()
+    private var life = 2
     private var isJumping: Bool = false
     
     private var lastPausedTime: TimeInterval?
@@ -54,6 +57,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         createBackgroundAndMove(for: self.size)
         walkWallaby()
         spawnRocks()
+        createLives()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -61,7 +65,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             isJumping = true
             wallaby.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
             wallaby.texture = SKTexture(imageNamed: "WallabyJump")
-            wallaby.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 30))
+            wallaby.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 35))
         }
     }
     
@@ -172,12 +176,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func blinkWallaby() {
-        let currentTime = Date().timeIntervalSince1970
-        
-        if let lastPaused = lastPausedTime, currentTime - lastPaused < pauseCooldown {
-            return
-        }
-        
         let fadeOut = SKAction.fadeOut(withDuration: 0.1)
         let fadeIn = SKAction.fadeIn(withDuration: 0.1)
         let blink = SKAction.sequence([fadeOut, fadeIn])
@@ -187,16 +185,35 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func pauseGame() {
-        let currentTime = Date().timeIntervalSince1970
-        
-        if let lastPaused = lastPausedTime, currentTime - lastPaused < pauseCooldown {
-            return
-        }
-        lastPausedTime = currentTime
-        
         self.view?.isPaused = true
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             self.view?.isPaused = false
+        }
+    }
+    
+    func createLives() {
+        for i in 0..<3 {
+            lifeIcon = SKSpriteNode(imageNamed: "HeartOn")
+            lifeIcon.size = CGSize(width: 20, height: 20)
+            lifeIcon.position = CGPoint(x: 40 + (i * 28), y: 352)
+            lifeIcon.name = "lifeIcon_\(i)"
+            lifeGroup.addChild(lifeIcon)
+        }
+        addChild(lifeGroup)
+    }
+    
+    func updateLives() {
+        if let updatingLife = lifeGroup.childNode(withName: "lifeIcon_\(life)") as? SKSpriteNode {
+            updatingLife.texture = SKTexture(imageNamed: "HeartOff")
+        }
+    }
+    
+    func reduceLife() {
+        if life > 0 {
+            updateLives()
+            life -= 1
+        } else {
+//            game over
         }
     }
     
@@ -223,8 +240,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         if wallabyBody.categoryBitMask == rockCategory || otherBody.categoryBitMask == rockCategory {
+            let currentTime = Date().timeIntervalSince1970
+            if let lastPaused = lastPausedTime, currentTime - lastPaused < pauseCooldown {
+                return
+            }
+            lastPausedTime = currentTime
             blinkWallaby()
             pauseGame()
+            reduceLife()
         }
     }
 }
