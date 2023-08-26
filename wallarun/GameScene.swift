@@ -47,7 +47,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var life = 2
     private var gameTime = 10
     private var isJumping: Bool = false
-    
+    private var fevertime : SKVideoNode!
     private var lastPausedTime: TimeInterval?
     let pauseCooldown: TimeInterval = 0.6
     
@@ -157,6 +157,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func createBackgroundAndMove(for size: CGSize) {
+        
+        if isFeverTime == true {
+            let video = SKVideoNode(fileNamed: "BackGroundFever.mp4")
+            video.position = CGPoint(x:frame.midX,y: 200)
+            addChild(video)
+            video.play()
+        }
         let backgroundSize = CGSize(width: 1024, height: 416.5)
         let moveLeft = SKAction.moveBy(x: -backgroundSize.width, y: 0, duration: 14.0)
         let resetPosition = SKAction.moveBy(x: backgroundSize.width, y: 0, duration: 0)
