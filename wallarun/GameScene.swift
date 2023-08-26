@@ -73,6 +73,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         walkWallaby()
         spawnRocks()
         createLives()
+        spawnWeed()
         
         // Progress bar
         progressBar.getSceneFrame(sceneFrame: frame)
@@ -122,7 +123,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         wallaby.position = CGPoint(x: 150, y: self.size.height/2)
         wallaby.zPosition = 1
         
-        wallaby.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: "WallabyDown"), size: CGSize(width: 50, height: 50))
+//        wallaby.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: "WallabyDown"), size: CGSize(width: 50, height: 50))
         wallaby.physicsBody?.isDynamic = true
         wallaby.physicsBody?.allowsRotation = false
         wallaby.physicsBody?.restitution = 0.0
@@ -227,6 +228,34 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let delay = SKAction.wait(forDuration: 2, withRange: 2)
         let spawnSequence = SKAction.sequence([spawnRocks, delay])
         let spawnRepeat = SKAction.repeat(spawnSequence, count: gameTime-3)
+        self.run(spawnRepeat)
+    }
+    
+    func createWeedAndMove() {
+        weed = SKSpriteNode(imageNamed: "DrugItem")
+        weed.size = CGSize(width: 36.25, height: 35)
+        weed.position = CGPoint(x: self.size.width + weed.size.width, y: 200)
+        
+        weed.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: "DrugItem"), size: weed.size)
+        weed.physicsBody?.isDynamic = false
+        
+        weed.physicsBody?.categoryBitMask = weedCategory
+        weed.physicsBody?.contactTestBitMask = wallabyCategory
+        weed.physicsBody?.collisionBitMask = 0
+        
+        let moveLeft = SKAction.moveBy(x: -self.size.width - (weed.size.width * 2), y: 0, duration: 3.2)
+        let remove = SKAction.removeFromParent()
+        let moveSequence = SKAction.sequence([moveLeft, remove])
+        
+        weed.run(moveSequence)
+        self.addChild(weed)
+    }
+    
+    func spawnWeed() {
+        let spawnWeed = SKAction.run(createWeedAndMove)
+        let delay = SKAction.wait(forDuration: 3, withRange: 2)
+        let spawnSequence = SKAction.sequence([spawnWeed, delay])
+        let spawnRepeat = SKAction.repeat(spawnSequence, count: gameTime-5)
         self.run(spawnRepeat)
     }
     
@@ -337,6 +366,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if wallabyBody.categoryBitMask == houseCategory || otherBody.categoryBitMask == houseCategory {
             stopGame()
+        }
+        
+        if wallabyBody.categoryBitMask == weedCategory || otherBody.categoryBitMask == weedCategory {
+            
         }
     }
     
