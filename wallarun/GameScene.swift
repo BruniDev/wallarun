@@ -98,6 +98,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if !isJumping {
             isJumping = true
+            
+            let playJumpSound = SKAction.playSoundFileNamed("Jump.mp3", waitForCompletion: false)
+            wallaby.run(playJumpSound)
+            
             wallaby.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
             wallaby.texture = SKTexture(imageNamed: "WallabyJump")
             wallaby.physicsBody?.applyImpulse(CGVector(dx: 0, dy: jumpImpulse))
