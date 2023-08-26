@@ -109,25 +109,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func createWallaby(for size: CGSize) {
-        if self.weedCount == 0 {
-            self.wallaby = SKSpriteNode(imageNamed: "WallabyDown")
-            self.wallaby.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: "WallabyDown"), size: CGSize(width: 50, height: 50))
-        } else if self.weedCount < 3 {
-            self.wallaby.texture = SKTexture(imageNamed: "WallaDrug1Down")
-            self.wallaby.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: "WallaDrug1Down"), size: CGSize(width: 50, height: 50))
-        } else if self.weedCount < 5 {
-            self.wallaby.texture = SKTexture(imageNamed: "WallaDrug2Down")
-            self.wallaby.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: "WallaDrug2Down"), size: CGSize(width: 50, height: 50))
-        } else {
-            self.wallaby.texture = SKTexture(imageNamed: "WallaDrug3Down")
-            self.wallaby.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: "WallaDrug3Down"), size: CGSize(width: 50, height: 50))
-        }
-//        wallaby = SKSpriteNode(imageNamed: "WallabyDown")
+        wallaby = SKSpriteNode(imageNamed: "WallabyDown")
         wallaby.size = CGSize(width: 57.5, height: 58.75)
         wallaby.position = CGPoint(x: 150, y: self.size.height/2)
         wallaby.zPosition = 1
         
-//        wallaby.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: "WallabyDown"), size: CGSize(width: 50, height: 50))
+        wallaby.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: "WallabyDown"), size: CGSize(width: 50, height: 50))
         wallaby.physicsBody?.isDynamic = true
         wallaby.physicsBody?.allowsRotation = false
         wallaby.physicsBody?.restitution = 0.0
@@ -313,7 +300,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         house = SKSpriteNode(imageNamed: "House")
         house.size = CGSize(width: 150, height: 150)
         house.position = CGPoint(x: self.size.width + house.size.width, y: 160)
-    
+        
         house.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: "House"), size: house.size)
         house.physicsBody?.isDynamic = false
         
@@ -374,82 +361,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if wallabyBody.categoryBitMask == weedCategory || otherBody.categoryBitMask == weedCategory {
             
-        }
-    }
-    
-    // MARK: - Fever Time
-    // fever time start timer
-    func startFeverTimer() {
-        
-        // if timer exist, stop timer
-        if feverTimer != nil && feverTimer!.isValid {
-            feverTimer!.invalidate()
-        }
-        
-        if weedCount <= 2 {
-            // level 1
-            // 150% jump, 100% fever time
-            jumpImpulse = 40
-            feverTimeLength = 5
-        } else if weedCount <= 4 {
-            // level 2
-            // 140% jump, 80% fever time
-            jumpImpulse = 35
-            feverTimeLength = 4
-        } else {
-            // level 3
-            // 130% jump, 60% fever time
-            jumpImpulse = 25
-            feverTimeLength = 3
-        }
-        
-        // fever time timer start
-        feverTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(feverTime), userInfo: nil, repeats: false)
-
-    }
-
-    // when fever time started, this function is called
-    @objc func feverTime() {
-        
-        // if fever time ends(feverTimeLength == 1), stop timer
-        if(feverTimeLength == 0) {
-            
-            feverTimer?.invalidate()
-            feverTimer = nil
-            
-            // after timer stopped
-            endFeverTime()
-        }
-     
-        // feverTimeLength - 1 per 1 sec
-        feverTimeLength -= 1
-    }
-    
-    func eatWeed(_ contact: SKPhysicsContact) {
-        
-        weedCount += 1
-        
-        isFeverTime = true
-        startFeverTimer()
-    }
-    
-    // when fever time end, reduce stats
-    func endFeverTime() {
-        
-        isFeverTime = false
-        
-        if weedCount <= 2 {
-            // level 1
-            // 20% stats reduction
-            jumpImpulse = 20
-        } else if weedCount <= 4 {
-            // level 2
-            // 40% stats reduction
-            jumpImpulse = 10
-        } else {
-            // level 3
-            // 60% stats reduction
-            jumpImpulse = 5
         }
     }
 }
