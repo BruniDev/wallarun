@@ -9,7 +9,7 @@ import SpriteKit
 
 class WeedScene: SKScene {
     
-    // total distance vars
+    // progress vars
     private var totalTimer: Timer?
     private let totalPlayTime: Double = 120.0   // sec
     
