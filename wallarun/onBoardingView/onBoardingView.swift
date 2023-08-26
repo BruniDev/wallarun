@@ -54,7 +54,7 @@ struct onBoardingStartView : View {
 
                 Spacer()
             }
-            .fullBackground(imageName: "BackGroundImage_All")
+            .fullBackground(imageName: "BackGroundImage_all")
         }
         
         .navigationBarBackButtonHidden(true)
