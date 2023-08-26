@@ -5,9 +5,21 @@
 //  Created by 관식 on 2023/08/25.
 //
 
+import SwiftUI
 import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
+    
+    @Binding var gameState: GameState
+    
+    init(size: CGSize, gameState: Binding<GameState>) {
+        self._gameState = gameState
+        super.init(size: size)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // progress vars
     var progressBar = ProgressBar()
@@ -197,7 +209,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func stopGame() {
-        self.view?.isPaused = true
+        self.gameState = .success
     }
     
     func createLives() {
@@ -222,7 +234,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             updateLives()
             life -= 1
         } else {
-//            game over
+            self.gameState = .gameOver
         }
     }
     

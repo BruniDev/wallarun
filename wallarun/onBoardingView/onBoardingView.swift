@@ -30,15 +30,24 @@ struct onBoardingStartView : View {
                     Spacer()
                     if isClicked == false {
                         Image("FrontPageTextBalloon1")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 136.25)
                     }else {
                         Image("FrontPageTextBalloon2")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 136.25)
                     }
                     Spacer()
                     if isClicked == true{
                         Button{
                         } label: {
-                            NavigationLink(destination: GameView()){
+                            NavigationLink(destination: GameView(gameState: .play)){
                                 Image("GameStartButton")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(height: 55)
                             }
                         }
                     }
@@ -46,6 +55,9 @@ struct onBoardingStartView : View {
                         Button{} label: {
                             NavigationLink(destination:  onBoardingStartView(toggle: true)){
                                 Image("NextButton")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(height: 55)
                             }
                         }
                     }
