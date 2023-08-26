@@ -36,13 +36,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsWorld.contactDelegate = self
         
         createWallaby(for: self.size)
-        
-        
-
         createGroundAndMove(for: self.size)
         createBackgroundAndMove(for: self.size)
         walkWallaby()
         spawnRocks()
+        createLives()
         
         // Progress bar
         progressBar.getSceneFrame(sceneFrame: frame)
@@ -59,12 +57,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             count += 1
         }
-        
-        createGroundAndMove(for: self.size)
-        createBackgroundAndMove(for: self.size)
-        walkWallaby()
-        spawnRocks()
-        createLives()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
