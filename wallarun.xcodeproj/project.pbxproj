@@ -20,6 +20,8 @@
 		7B770FEB2A98D4890010F875 /* Dead.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7B770FEA2A98D4890010F875 /* Dead.mp3 */; };
 		7B770FED2A98D4970010F875 /* Jump.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7B770FEC2A98D4970010F875 /* Jump.mp3 */; };
 		7B770FF12A9931620010F875 /* onBoardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B770FF02A9931620010F875 /* onBoardingView.swift */; };
+		FDC679972A9A71AC00D0EF80 /* SuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC679952A9A71AC00D0EF80 /* SuccessView.swift */; };
+		FDC679982A9A71AC00D0EF80 /* GameOverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC679962A9A71AC00D0EF80 /* GameOverView.swift */; };
 		FDF823F22A98B7FC0057489A /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF823F12A98B7FC0057489A /* GameScene.swift */; };
 /* End PBXBuildFile section */
 
@@ -39,6 +41,8 @@
 		7B770FEC2A98D4970010F875 /* Jump.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Jump.mp3; sourceTree = "<group>"; };
 		7B770FF02A9931620010F875 /* onBoardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = onBoardingView.swift; sourceTree = "<group>"; };
 		7B770FF22A9941740010F875 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		FDC679952A9A71AC00D0EF80 /* SuccessView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuccessView.swift; sourceTree = "<group>"; };
+		FDC679962A9A71AC00D0EF80 /* GameOverView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverView.swift; sourceTree = "<group>"; };
 		FDF823F12A98B7FC0057489A /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -88,6 +92,8 @@
 				7B770FC12A98A9730010F875 /* wallarunApp.swift */,
 				7B770FC32A98A9730010F875 /* GameView.swift */,
 				FDF823F12A98B7FC0057489A /* GameScene.swift */,
+				FDC679962A9A71AC00D0EF80 /* GameOverView.swift */,
+				FDC679952A9A71AC00D0EF80 /* SuccessView.swift */,
 				67341C232A98BB2700E1579F /* WeedScene.swift */,
 				67341C252A997E7900E1579F /* ProgressBar.swift */,
 				7B770FC52A98A9740010F875 /* Assets.xcassets */,
@@ -197,10 +203,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FDC679982A9A71AC00D0EF80 /* GameOverView.swift in Sources */,
 				7B497F872A99F7C60067F789 /* endingView.swift in Sources */,
 				FDF823F22A98B7FC0057489A /* GameScene.swift in Sources */,
 				7B770FF12A9931620010F875 /* onBoardingView.swift in Sources */,
 				67341C242A98BB2700E1579F /* WeedScene.swift in Sources */,
+				FDC679972A9A71AC00D0EF80 /* SuccessView.swift in Sources */,
 				7B770FC42A98A9730010F875 /* GameView.swift in Sources */,
 				7B497F892A9A0C7F0067F789 /* resultView.swift in Sources */,
 				67341C262A997E7900E1579F /* ProgressBar.swift in Sources */,

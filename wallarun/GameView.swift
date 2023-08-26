@@ -9,17 +9,33 @@ import SwiftUI
 import SpriteKit
 
 struct GameView: View {
+    
+    @State private var gameState: GameState = .play
+    
     var body: some View {
-        NavigationView{
-            GeometryReader { geo in
-                let size = geo.size
-                SpriteView(scene: GameScene(size: size))
-                    .frame(width: size.width, height: size.height)
+        switch gameState {
+        case .play:
+            NavigationView{
+                GeometryReader { geo in
+                    let size = geo.size
+                    SpriteView(scene: GameScene(size: size, gameState: $gameState))
+                        .frame(width: size.width, height: size.height)
+                }
+                .ignoresSafeArea()
             }
-            .ignoresSafeArea()
+            .navigationBarBackButtonHidden(true)
+        case .success:
+            SuccessView()
+        case .gameOver:
+            GameOverView()
         }
-        .navigationBarBackButtonHidden(true)
     }
+}
+
+enum GameState {
+    case play
+    case success
+    case gameOver
 }
 
 struct ContentView_Previews: PreviewProvider {

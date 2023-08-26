@@ -57,6 +57,6 @@ struct endingStartView : View {
 struct endingView_Previews: PreviewProvider {
     static var previews: some View {
         endingView()
-        
+            .previewInterfaceOrientation(.landscapeRight)
     }
 }
