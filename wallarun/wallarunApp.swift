@@ -14,7 +14,7 @@ struct wallarunApp: App {
     }
     var body: some Scene {
         WindowGroup {
-            onBoardingTabView()
+            onBoardingView()
         }
     }
 }
