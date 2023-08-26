@@ -26,7 +26,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // fever time vars
     private var isFeverTime: Bool = false
-    private var feverTimeLength: Double = 5.0   // sec
+    private var feverTimeLength: Double = 2.0   // sec
     
     // weed vars
     private var weedCount: Int = 0
@@ -318,16 +318,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let bodyB = contact.bodyB
         
         if bodyA.node == wallaby || bodyB.node == wallaby {
-            
-            if self.weedCount == 0 {
-                self.wallaby.texture = SKTexture(imageNamed: "WallabyDown")
-            } else if self.weedCount < 3 {
-                self.wallaby.texture = SKTexture(imageNamed: "WallaDrug1Down")
-            } else if self.weedCount < 5 {
-                self.wallaby.texture = SKTexture(imageNamed: "WallaDrug2Down")
-            } else {
-                self.wallaby.texture = SKTexture(imageNamed: "WallaDrug3Down")
-            }
+            wallaby.texture = SKTexture(imageNamed: "WallabyDown")
             isJumping = false
         }
         
@@ -360,7 +351,67 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         if wallabyBody.categoryBitMask == weedCategory || otherBody.categoryBitMask == weedCategory {
-            
+            if let weedNode = otherBody.node {
+                weedNode.removeFromParent()
+            }
+            let currentTime = Date().timeIntervalSince1970
+            if let lastPaused = lastPausedTime, currentTime - lastPaused < pauseCooldown {
+                return
+            }
+            lastPausedTime = currentTime
+            self.weedCount += 1
+            startFeverTime()
+        }
+    }
+    
+    //    func handleWeedEffects() {
+    //        if weedCount == 3 {
+    //            startFeverTime()
+    //        } else if weedCount > 3 {
+    //            increaseWallabySpeed()
+    //        }
+    //    }
+    
+    func startFeverTime() {
+        isFeverTime = true
+        //        jumpImpulse *= 1.3
+        feverTimer = Timer.scheduledTimer(withTimeInterval: feverTimeLength, repeats: false) { _ in
+            self.isFeverTime = false
+            //            self.jumpImpulse /= 1.3
+        }
+    }
+    
+    func increaseWallabySpeed() {
+        
+    }
+    
+    override func update(_ currentTime: TimeInterval) {
+        if isFeverTime {
+            switch weedCount {
+            case 0:
+                jumpImpulse = 35
+            case 1..<3:
+                jumpImpulse = 40
+            case 3..<5:
+                jumpImpulse = 35
+            case 5..<100:
+                jumpImpulse = 30
+            default:
+                jumpImpulse = 35
+            }
+        } else {
+            switch weedCount {
+            case 0:
+                jumpImpulse = 35
+            case 1..<3:
+                jumpImpulse = 25
+            case 3..<5:
+                jumpImpulse = 15
+            case 5..<100:
+                jumpImpulse = 5
+            default:
+                jumpImpulse = 35
+            }
         }
     }
 }
