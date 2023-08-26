@@ -16,6 +16,9 @@
 		7B770FE92A98D4840010F875 /* Background.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7B770FE82A98D4840010F875 /* Background.mp3 */; };
 		7B770FEB2A98D4890010F875 /* Dead.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7B770FEA2A98D4890010F875 /* Dead.mp3 */; };
 		7B770FED2A98D4970010F875 /* Jump.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7B770FEC2A98D4970010F875 /* Jump.mp3 */; };
+		7B770FF12A9931620010F875 /* onBoardingStartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B770FF02A9931620010F875 /* onBoardingStartView.swift */; };
+		7B770FF72A994D120010F875 /* onBoardingEndView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B770FF62A994D120010F875 /* onBoardingEndView.swift */; };
+		7B770FF92A9959770010F875 /* onBoardingTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B770FF82A9959770010F875 /* onBoardingTabView.swift */; };
 		FDF823F22A98B7FC0057489A /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDF823F12A98B7FC0057489A /* GameScene.swift */; };
 /* End PBXBuildFile section */
 
@@ -30,6 +33,10 @@
 		7B770FE82A98D4840010F875 /* Background.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Background.mp3; sourceTree = "<group>"; };
 		7B770FEA2A98D4890010F875 /* Dead.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Dead.mp3; sourceTree = "<group>"; };
 		7B770FEC2A98D4970010F875 /* Jump.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Jump.mp3; sourceTree = "<group>"; };
+		7B770FF02A9931620010F875 /* onBoardingStartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = onBoardingStartView.swift; sourceTree = "<group>"; };
+		7B770FF22A9941740010F875 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		7B770FF62A994D120010F875 /* onBoardingEndView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = onBoardingEndView.swift; sourceTree = "<group>"; };
+		7B770FF82A9959770010F875 /* onBoardingTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = onBoardingTabView.swift; sourceTree = "<group>"; };
 		FDF823F12A98B7FC0057489A /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -63,6 +70,8 @@
 		7B770FC02A98A9730010F875 /* wallarun */ = {
 			isa = PBXGroup;
 			children = (
+				7B770FF32A994CED0010F875 /* onBoardingView */,
+				7B770FF22A9941740010F875 /* Info.plist */,
 				7B770FDD2A98C2570010F875 /* sound */,
 				7B770FC12A98A9730010F875 /* wallarunApp.swift */,
 				7B770FC32A98A9730010F875 /* GameView.swift */,
@@ -91,6 +100,16 @@
 				7B770FEC2A98D4970010F875 /* Jump.mp3 */,
 			);
 			path = sound;
+			sourceTree = "<group>";
+		};
+		7B770FF32A994CED0010F875 /* onBoardingView */ = {
+			isa = PBXGroup;
+			children = (
+				7B770FF02A9931620010F875 /* onBoardingStartView.swift */,
+				7B770FF62A994D120010F875 /* onBoardingEndView.swift */,
+				7B770FF82A9959770010F875 /* onBoardingTabView.swift */,
+			);
+			path = onBoardingView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -167,7 +186,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B770FF92A9959770010F875 /* onBoardingTabView.swift in Sources */,
+				7B770FF72A994D120010F875 /* onBoardingEndView.swift in Sources */,
 				FDF823F22A98B7FC0057489A /* GameScene.swift in Sources */,
+				7B770FF12A9931620010F875 /* onBoardingStartView.swift in Sources */,
 				67341C242A98BB2700E1579F /* WeedScene.swift in Sources */,
 				7B770FC42A98A9730010F875 /* GameView.swift in Sources */,
 				7B770FC22A98A9730010F875 /* wallarunApp.swift in Sources */,
@@ -302,9 +324,9 @@
 				DEVELOPMENT_TEAM = JRDC32KNLZ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = wallarun/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -331,9 +353,9 @@
 				DEVELOPMENT_TEAM = JRDC32KNLZ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = wallarun/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
