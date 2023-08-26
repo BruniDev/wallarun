@@ -18,7 +18,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var rock: SKSpriteNode!
     private var lifeIcon: SKSpriteNode!
     private var lifeGroup = SKSpriteNode()
+    private var house: SKSpriteNode!
     private var life = 2
+    private var gameTime = 10
     private var isJumping: Bool = false
     
     private var lastPausedTime: TimeInterval?
@@ -27,6 +29,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let wallabyCategory = 1 << 0 as UInt32
     let groundCategory = 1 << 1 as UInt32
     let rockCategory = 1 << 2 as UInt32
+    let houseCategory = 1 << 3 as UInt32
     
     override func didMove(to view: SKView) {
         let backgroundSound = SKAudioNode(fileNamed: "Background.mp3")
@@ -51,10 +54,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Call updateProgressBar() and count++ per every second
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
-            if count > 60 { timer.invalidate() }
+            if count > self.gameTime {
+                self.createHouseAndMove()
+                timer.invalidate()
+                return
+            }
             
             self.progressBar.updateProgressBar()
-            
             count += 1
         }
     }
@@ -149,7 +155,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         rock = SKSpriteNode(imageNamed: randomRock)
         rock.size = randomRock == "RockL" ? CGSize(width: 62.5, height: 62.5) : CGSize(width: 45, height: 62.5)
-        rock.position = CGPoint(x: self.size.width, y: 105)
+        rock.position = CGPoint(x: self.size.width + rock.size.width, y: 105)
         
         rock.physicsBody = SKPhysicsBody(texture: rock.texture!, size: randomRock == "RockL" ? CGSize(width: 55, height: 55) : CGSize(width: 35, height: 55))
         rock.physicsBody?.isDynamic = false
@@ -158,7 +164,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         rock.physicsBody?.contactTestBitMask = wallabyCategory
         rock.physicsBody?.collisionBitMask = 0
         
-        let moveLeft = SKAction.moveBy(x: -self.size.width - rock.size.width, y: 0, duration: 3.1)
+        let moveLeft = SKAction.moveBy(x: -self.size.width - (rock.size.width * 2), y: 0, duration: randomRock == "RockL" ? 3.3 : 3.2)
         let remove = SKAction.removeFromParent()
         let moveSequence = SKAction.sequence([moveLeft, remove])
         
@@ -170,8 +176,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let spawnRocks = SKAction.run(createRockAndMove)
         let delay = SKAction.wait(forDuration: 2, withRange: 2)
         let spawnSequence = SKAction.sequence([spawnRocks, delay])
-        let spawnForever = SKAction.repeatForever(spawnSequence)
-        self.run(spawnForever)
+        let spawnRepeat = SKAction.repeat(spawnSequence, count: gameTime-3)
+        self.run(spawnRepeat)
     }
     
     func blinkWallaby() {
@@ -188,6 +194,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             self.view?.isPaused = false
         }
+    }
+    
+    func stopGame() {
+        self.view?.isPaused = true
     }
     
     func createLives() {
@@ -214,6 +224,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         } else {
 //            game over
         }
+    }
+    
+    func createHouseAndMove() {
+        house = SKSpriteNode(imageNamed: "House")
+        house.size = CGSize(width: 150, height: 150)
+        house.position = CGPoint(x: self.size.width + house.size.width, y: 160)
+    
+        house.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: "House"), size: house.size)
+        house.physicsBody?.isDynamic = false
+        
+        house.physicsBody?.categoryBitMask = houseCategory
+        house.physicsBody?.contactTestBitMask = wallabyCategory
+        house.physicsBody?.collisionBitMask = wallabyCategory
+        
+        let moveLeft = SKAction.moveBy(x: -self.size.width - (house.size.width * 2), y: 0, duration: 3.9)
+        house.run(moveLeft)
+        self.addChild(house)
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
@@ -247,6 +274,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             blinkWallaby()
             pauseGame()
             reduceLife()
+        }
+        
+        if wallabyBody.categoryBitMask == houseCategory || otherBody.categoryBitMask == houseCategory {
+            stopGame()
         }
     }
 }
