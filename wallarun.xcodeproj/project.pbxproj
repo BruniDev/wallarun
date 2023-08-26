@@ -10,7 +10,6 @@
 		67341C242A98BB2700E1579F /* WeedScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67341C232A98BB2700E1579F /* WeedScene.swift */; };
 		67341C262A997E7900E1579F /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67341C252A997E7900E1579F /* ProgressBar.swift */; };
 		7B497F872A99F7C60067F789 /* endingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B497F862A99F7C60067F789 /* endingView.swift */; };
-		7B497F892A9A0C7F0067F789 /* resultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B497F882A9A0C7F0067F789 /* resultView.swift */; };
 		7B770FC22A98A9730010F875 /* wallarunApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B770FC12A98A9730010F875 /* wallarunApp.swift */; };
 		7B770FC42A98A9730010F875 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B770FC32A98A9730010F875 /* GameView.swift */; };
 		7B770FC62A98A9740010F875 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B770FC52A98A9740010F875 /* Assets.xcassets */; };
@@ -29,7 +28,6 @@
 		67341C232A98BB2700E1579F /* WeedScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeedScene.swift; sourceTree = "<group>"; };
 		67341C252A997E7900E1579F /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		7B497F862A99F7C60067F789 /* endingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = endingView.swift; sourceTree = "<group>"; };
-		7B497F882A9A0C7F0067F789 /* resultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = resultView.swift; sourceTree = "<group>"; };
 		7B770FBE2A98A9730010F875 /* wallarun.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = wallarun.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B770FC12A98A9730010F875 /* wallarunApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = wallarunApp.swift; sourceTree = "<group>"; };
 		7B770FC32A98A9730010F875 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
@@ -61,7 +59,6 @@
 			isa = PBXGroup;
 			children = (
 				7B497F862A99F7C60067F789 /* endingView.swift */,
-				7B497F882A9A0C7F0067F789 /* resultView.swift */,
 			);
 			path = endingView;
 			sourceTree = "<group>";
@@ -210,7 +207,6 @@
 				67341C242A98BB2700E1579F /* WeedScene.swift in Sources */,
 				FDC679972A9A71AC00D0EF80 /* SuccessView.swift in Sources */,
 				7B770FC42A98A9730010F875 /* GameView.swift in Sources */,
-				7B497F892A9A0C7F0067F789 /* resultView.swift in Sources */,
 				67341C262A997E7900E1579F /* ProgressBar.swift in Sources */,
 				7B770FC22A98A9730010F875 /* wallarunApp.swift in Sources */,
 			);

@@ -12,6 +12,7 @@ private var isClicked : Bool = false
 struct endingView: View {
     var body: some View {
         endingStartView(toggle: false)
+            .navigationBarBackButtonHidden(true)
     }
 }
 
@@ -31,22 +32,33 @@ struct endingStartView : View {
                     Spacer()
                     if isClicked == false {
                         Image("EndPageTextBalloon1")
-                        Button {} label: {
-                            NavigationLink(destination: endingStartView(toggle: true)) {
-                                Image("NextButton")
-                                    .offset(x:250,y:-50)
-                            }
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 272.5)
+                        Button {
+                            isClicked.toggle()
+                        } label: {
+                            Image("NextButton")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 55)
                         }
+                        .offset(x:250,y:-50)
                         
                     } else {
                         Image("EndPageTextBalloon2")
-                        Button {} label: {
-                            NavigationLink(destination: GameView()) {
-                                Image("RetryButton")
-                                    .offset(x:250,y:-50)
-                            }
-                            
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 272.5)
+                        NavigationLink {
+                            GameView(gameState: .play)
+                        } label: {
+                            Image("RetryButton")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 55)
                         }
+                        .offset(x:250,y:-50)
                     }
                 }
             }

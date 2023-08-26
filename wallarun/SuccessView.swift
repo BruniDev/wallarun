@@ -8,15 +8,32 @@
 import SwiftUI
 
 struct SuccessView: View {
+    
+    @State private var isClicked = false
+    
     var body: some View {
-        ZStack {
-            Image("SuccessView")
-                .resizable()
-                .scaledToFit()
-                .frame(width: UIScreen.main.bounds.width)
+        if !isClicked {
+                ZStack {
+                    Image("SuccessView")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: UIScreen.main.bounds.width)
+                    Button {
+                        isClicked.toggle()
+                    } label: {
+                        Image("NextButton")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 55)
+
+                    }
+                    .offset(x: 250, y: 120)
+                }
+                .ignoresSafeArea()
+                .navigationBarBackButtonHidden(true)
+        } else {
+            endingView()
         }
-        .ignoresSafeArea()
-        .toolbar(.hidden)
     }
 }
 

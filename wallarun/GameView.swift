@@ -10,7 +10,7 @@ import SpriteKit
 
 struct GameView: View {
     
-    @State private var gameState: GameState = .play
+    @State var gameState: GameState
     
     var body: some View {
         switch gameState {
@@ -26,8 +26,10 @@ struct GameView: View {
             .navigationBarBackButtonHidden(true)
         case .success:
             SuccessView()
+                .navigationBarBackButtonHidden(true)
         case .gameOver:
             GameOverView()
+                .navigationBarBackButtonHidden(true)
         }
     }
 }
@@ -40,7 +42,7 @@ enum GameState {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        GameView()
+        GameView(gameState: .play)
             .previewInterfaceOrientation(.landscapeRight)
     }
 }
