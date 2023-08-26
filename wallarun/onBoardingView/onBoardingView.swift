@@ -29,16 +29,16 @@ struct onBoardingStartView : View {
                 VStack{
                     Spacer()
                     if isClicked == false {
-                        Image("TextBalloon1")
+                        Image("FrontPageTextBalloon1")
                     }else {
-                        Image("TextBalloon2")
+                        Image("FrontPageTextBalloon2")
                     }
                     Spacer()
                     if isClicked == true{
                         Button{
                         } label: {
                             NavigationLink(destination: GameView()){
-                                Image("StartButton")
+                                Image("GameStartButton")
                             }
                         }
                     }
@@ -54,7 +54,7 @@ struct onBoardingStartView : View {
 
                 Spacer()
             }
-            .fullBackground(imageName: "Background")
+            .fullBackground(imageName: "BackGroundImage_All")
         }
         
         .navigationBarBackButtonHidden(true)
