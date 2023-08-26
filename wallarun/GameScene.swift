@@ -14,13 +14,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private var wallaby: SKSpriteNode!
     private var ground: SKSpriteNode!
+    private var background: SKSpriteNode!
     private var isJumping: Bool = false
     
     override func didMove(to view: SKView) {
         let backgroundSound = SKAudioNode(fileNamed: "Background.mp3")
         self.addChild(backgroundSound)
-        self.backgroundColor = .gray
-        self.physicsWorld.gravity = CGVector(dx: 0, dy: -20)
+        self.backgroundColor = .white
+        self.physicsWorld.gravity = CGVector(dx: 0, dy: -30)
         self.physicsWorld.contactDelegate = self
         createWallaby(for: self.size)
         createGround(for: self.size)
@@ -40,13 +41,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             count += 1
         }
+
+        createGroundAndMove(for: self.size)
+        createBackgroundAndMove(for: self.size)
+        walkWallaby()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if !isJumping {
             isJumping = true
-            wallaby.texture = SKTexture(imageNamed: "WallabyUp")
-            wallaby.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 120))
+            wallaby.texture = SKTexture(imageNamed: "WallabyJump")
+            wallaby.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 100))
         }
     }
     
@@ -67,19 +72,58 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(wallaby)
     }
     
-    func createGround(for size: CGSize) {
-        ground = SKSpriteNode(color: .brown, size: CGSize(width: self.size.width, height: 60))
+    func walkWallaby() {
+        let jumpAction = SKAction.run {
+            self.wallaby.texture = SKTexture(imageNamed: "WallabyUp")
+            self.wallaby.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 50))
+        }
+        let delay = SKAction.wait(forDuration: 0.4)
+        let jumpSequence = SKAction.sequence([jumpAction, delay])
+        let repeatJump = SKAction.repeatForever(jumpSequence)
+        wallaby.run(repeatJump)
+    }
+    
+    func createBackgroundAndMove(for size: CGSize) {
+        let backgroundSize = CGSize(width: 945.23, height: 246.92)
+        let moveLeft = SKAction.moveBy(x: -backgroundSize.width, y: 0, duration: 4.0)
+        let resetPosition = SKAction.moveBy(x: backgroundSize.width, y: 0, duration: 0)
+        let moveSequence = SKAction.sequence([moveLeft, resetPosition])
+        let moveForever = SKAction.repeatForever(moveSequence)
         
-        ground.position = CGPoint(x: self.size.width/2, y: 20)
-        ground.physicsBody = SKPhysicsBody(rectangleOf: ground.size)
-        ground.physicsBody?.isDynamic = false
-        ground.physicsBody?.restitution = 0.0
+        for i in 0..<3 {
+            background = SKSpriteNode(imageNamed: "BackGroundImage_Default")
+            background.size = backgroundSize
+            background.position = CGPoint(x: CGFloat(i) * background.size.width, y: 200)
+            background.zPosition = -1
+            
+            background.run(moveForever)
+            self.addChild(background)
+        }
+    }
+    
+    func createGroundAndMove(for size: CGSize) {
+        let groundSize = CGSize(width: 945.23, height: 60)
+        let moveLeft = SKAction.moveBy(x: -groundSize.width, y: 0, duration: 4.0)
+        let resetPosition = SKAction.moveBy(x: groundSize.width, y: 0, duration: 0)
+        let moveSequence = SKAction.sequence([moveLeft, resetPosition])
+        let moveForever = SKAction.repeatForever(moveSequence)
         
-        ground.physicsBody?.categoryBitMask = 2
-        ground.physicsBody?.contactTestBitMask = 1
-        ground.physicsBody?.collisionBitMask = 1
-        
-        self.addChild(ground)
+        for i in 0..<3 {
+            ground = SKSpriteNode(imageNamed: "BackGroundImage_Bottom")
+            ground.size = groundSize
+            ground.position = CGPoint(x: CGFloat(i) * ground.size.width, y: 20)
+            
+            ground.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: "BackGroundImage_Bottom"), size: ground.size)
+            ground.physicsBody?.isDynamic = false
+            ground.physicsBody?.restitution = 0.0
+            
+            ground.physicsBody?.categoryBitMask = 2
+            ground.physicsBody?.contactTestBitMask = 1
+            ground.physicsBody?.collisionBitMask = 1
+            
+            ground.run(moveForever)
+            self.addChild(ground)
+        }
     }
     
     func didBegin(_ contact: SKPhysicsContact) {

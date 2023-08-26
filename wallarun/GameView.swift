@@ -10,12 +10,15 @@ import SpriteKit
 
 struct GameView: View {
     var body: some View {
-        GeometryReader { geo in
-            let size = geo.size
-            SpriteView(scene: GameScene(size: size))
-                .frame(width: size.width, height: size.height)
+        NavigationView{
+            GeometryReader { geo in
+                let size = geo.size
+                SpriteView(scene: GameScene(size: size))
+                    .frame(width: size.width, height: size.height)
+            }
+            .ignoresSafeArea()
         }
-        .ignoresSafeArea()
+        .navigationBarBackButtonHidden(true)
     }
 }
 
