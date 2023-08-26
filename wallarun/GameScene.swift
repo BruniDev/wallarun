@@ -37,16 +37,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         createWallaby(for: self.size)
         
+        
+
+        createGroundAndMove(for: self.size)
+        createBackgroundAndMove(for: self.size)
+        walkWallaby()
+        spawnRocks()
+        
         // Progress bar
         progressBar.getSceneFrame(sceneFrame: frame)
-        progressBar.buildProgressBar()
+        progressBar.buildProgressBar(for: self.size)
         addChild(progressBar)
         
         var count = 0
         
         // Call updateProgressBar() and count++ per every second
         Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
-            if count > 120 { timer.invalidate() }
+            if count > 60 { timer.invalidate() }
             
             self.progressBar.updateProgressBar()
             

@@ -10,14 +10,16 @@ import SpriteKit
 class ProgressBar: SKNode {
     
     private var progress: CGFloat = 0
-    private var maxProgress: CGFloat = 9
-    private var maxProgressBarWidth: CGFloat = 0
+    private var maxProgress: CGFloat = 60
+    private var maxProgressBarWidth: CGFloat = 178.75
     
     private var progressBar = SKSpriteNode()
     private var progressBarContainer = SKSpriteNode()
+    private var progressBarWallaby = SKSpriteNode()
     
-    private let progressTexture = SKTexture(imageNamed: "temp.png")
-    private let progressContainerTexture = SKTexture(imageNamed: "temp.png")
+    private let progressTexture = SKTexture(imageNamed: "ProgressBarIn.png")
+    private let progressContainerTexture = SKTexture(imageNamed: "ProgressBarOut.png")
+    private let progressBarWallabyTexture = SKTexture(imageNamed: "ProgressBarWallaby.png")
     
     private var sceneFrame = CGRect()
     
@@ -29,19 +31,27 @@ class ProgressBar: SKNode {
         self.sceneFrame = sceneFrame
     }
     
-    func buildProgressBar() {
+    func buildProgressBar(for size: CGSize) {
         progressBarContainer = SKSpriteNode(texture: progressContainerTexture, size: progressContainerTexture.size())
-        progressBarContainer.size.width = sceneFrame.width * 0.5
-        progressBarContainer.size.height = sceneFrame.height * 0.1
+        progressBarContainer.size.width = 240
+        progressBarContainer.size.height = 24
+//        progressBarContainer.position = CGPoint(x: 600, y: 30)
+        progressBarContainer.position = CGPoint(x: size.width - 160, y: 30)
         
         progressBar = SKSpriteNode(texture: progressTexture, size: progressTexture.size())
         progressBar.size.width = 0
-        progressBar.size.height = sceneFrame.height * 0.08
-        progressBar.position.x = -maxProgressBarWidth / 2
-        progressBar.anchorPoint = CGPoint(x: 0, y: 0.5)
+        progressBar.size.height = 6.25
+        progressBar.position.x = 567
+        progressBar.anchorPoint = CGPoint(x: 0, y: -4.15)
+        
+        // 왈라비가 따라오는건 아직 안됨
+//        progressBarWallaby = SKSpriteNode(texture: progressBarWallabyTexture, size: progressBarWallabyTexture.size())
+//        progressBarWallaby.position = CGPoint(x: progressBar.position.x + (CGFloat(progress / maxProgress) * maxProgressBarWidth), y: progressBar.position.y)
+        
         
         addChild(progressBar)
         addChild(progressBarContainer)
+        addChild(progressBarWallaby)
     }
     
     func updateProgressBar() {
