@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct wallarunApp: App {
+    init() {
+        Thread.sleep(forTimeInterval: 2)
+    }
     var body: some Scene {
         WindowGroup {
-            GameView()
+            onBoardingTabView()
         }
     }
 }
+
