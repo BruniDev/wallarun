@@ -18,6 +18,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var rock: SKSpriteNode!
     private var isJumping: Bool = false
     
+    private var lastPausedTime: TimeInterval?
+    let pauseCooldown: TimeInterval = 0.6
+    
+    let wallabyCategory = 1 << 0 as UInt32
+    let groundCategory = 1 << 1 as UInt32
+    let rockCategory = 1 << 2 as UInt32
+    
     override func didMove(to view: SKView) {
         let backgroundSound = SKAudioNode(fileNamed: "Background.mp3")
         self.addChild(backgroundSound)
@@ -42,7 +49,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             count += 1
         }
-
+        
         createGroundAndMove(for: self.size)
         createBackgroundAndMove(for: self.size)
         walkWallaby()
@@ -52,8 +59,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if !isJumping {
             isJumping = true
+            wallaby.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
             wallaby.texture = SKTexture(imageNamed: "WallabyJump")
-            wallaby.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 35))
+            wallaby.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 30))
         }
     }
     
@@ -61,33 +69,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         wallaby = SKSpriteNode(imageNamed: "WallabyDown")
         wallaby.size = CGSize(width: 57.5, height: 58.75)
         wallaby.position = CGPoint(x: 150, y: self.size.height/2)
+        wallaby.zPosition = 1
         
-        wallaby.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: "WallabyDown"), size: wallaby.size)
+        wallaby.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: "WallabyDown"), size: CGSize(width: 50, height: 50))
         wallaby.physicsBody?.isDynamic = true
         wallaby.physicsBody?.allowsRotation = false
         wallaby.physicsBody?.restitution = 0.0
         
-        wallaby.physicsBody?.categoryBitMask = 1
-        wallaby.physicsBody?.contactTestBitMask = 2
-        wallaby.physicsBody?.collisionBitMask = 2
+        wallaby.physicsBody?.categoryBitMask = wallabyCategory
+        wallaby.physicsBody?.contactTestBitMask = groundCategory | rockCategory
+        wallaby.physicsBody?.collisionBitMask = groundCategory
         
         self.addChild(wallaby)
     }
     
     func walkWallaby() {
-        let jumpAction = SKAction.run {
-            self.wallaby.texture = SKTexture(imageNamed: "WallabyUp")
-            self.wallaby.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 20))
+        if !isJumping {
+            let jumpAction = SKAction.run {
+                self.wallaby.texture = SKTexture(imageNamed: "WallabyUp")
+                self.wallaby.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 10))
+            }
+            let delay = SKAction.wait(forDuration: 0.4)
+            let jumpSequence = SKAction.sequence([jumpAction, delay])
+            let repeatJump = SKAction.repeatForever(jumpSequence)
+            wallaby.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+            wallaby.run(repeatJump)
         }
-        let delay = SKAction.wait(forDuration: 0.4)
-        let jumpSequence = SKAction.sequence([jumpAction, delay])
-        let repeatJump = SKAction.repeatForever(jumpSequence)
-        wallaby.run(repeatJump)
     }
     
     func createBackgroundAndMove(for size: CGSize) {
         let backgroundSize = CGSize(width: 1024, height: 416.5)
-        let moveLeft = SKAction.moveBy(x: -backgroundSize.width, y: 0, duration: 16.0)
+        let moveLeft = SKAction.moveBy(x: -backgroundSize.width, y: 0, duration: 14.0)
         let resetPosition = SKAction.moveBy(x: backgroundSize.width, y: 0, duration: 0)
         let moveSequence = SKAction.sequence([moveLeft, resetPosition])
         let moveForever = SKAction.repeatForever(moveSequence)
@@ -105,7 +117,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func createGroundAndMove(for size: CGSize) {
         let groundSize = CGSize(width: 1024, height: 105)
-        let moveLeft = SKAction.moveBy(x: -groundSize.width, y: 0, duration: 4.0)
+        let moveLeft = SKAction.moveBy(x: -groundSize.width, y: 0, duration: 3.5)
         let resetPosition = SKAction.moveBy(x: groundSize.width, y: 0, duration: 0)
         let moveSequence = SKAction.sequence([moveLeft, resetPosition])
         let moveForever = SKAction.repeatForever(moveSequence)
@@ -115,13 +127,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             ground.size = groundSize
             ground.position = CGPoint(x: CGFloat(i) * ground.size.width, y: 40)
             
-            ground.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: "BackGroundImage_Bottom"), size: ground.size)
+            ground.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 1024, height: 90))
             ground.physicsBody?.isDynamic = false
             ground.physicsBody?.restitution = 0.0
             
-            ground.physicsBody?.categoryBitMask = 2
-            ground.physicsBody?.contactTestBitMask = 1
-            ground.physicsBody?.collisionBitMask = 1
+            ground.physicsBody?.categoryBitMask = groundCategory
+            ground.physicsBody?.contactTestBitMask = wallabyCategory
+            ground.physicsBody?.collisionBitMask = wallabyCategory
             
             ground.run(moveForever)
             self.addChild(ground)
@@ -130,19 +142,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func createRockAndMove() {
         let rockTextures = ["RockL", "RockM"]
+        let randomRock = rockTextures.randomElement()!
         
-        rock = SKSpriteNode(imageNamed: rockTextures.randomElement() ?? "RockL")
-        rock.size = CGSize(width: 62.5, height: 62.5)
-        rock.position = CGPoint(x: self.size.width, y: 110)
+        rock = SKSpriteNode(imageNamed: randomRock)
+        rock.size = randomRock == "RockL" ? CGSize(width: 62.5, height: 62.5) : CGSize(width: 45, height: 62.5)
+        rock.position = CGPoint(x: self.size.width, y: 105)
         
-        rock.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: "RockL"), size: rock.size)
+        rock.physicsBody = SKPhysicsBody(texture: rock.texture!, size: randomRock == "RockL" ? CGSize(width: 55, height: 55) : CGSize(width: 35, height: 55))
         rock.physicsBody?.isDynamic = false
         
-        rock.physicsBody?.categoryBitMask = 3
-        rock.physicsBody?.contactTestBitMask = 1
-        rock.physicsBody?.collisionBitMask = 1
+        rock.physicsBody?.categoryBitMask = rockCategory
+        rock.physicsBody?.contactTestBitMask = wallabyCategory
+        rock.physicsBody?.collisionBitMask = 0
         
-        let moveLeft = SKAction.moveBy(x: -self.size.width - rock.size.width, y: 0, duration: 3.6)
+        let moveLeft = SKAction.moveBy(x: -self.size.width - rock.size.width, y: 0, duration: 3.1)
         let remove = SKAction.removeFromParent()
         let moveSequence = SKAction.sequence([moveLeft, remove])
         
@@ -152,10 +165,39 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func spawnRocks() {
         let spawnRocks = SKAction.run(createRockAndMove)
-        let delay = SKAction.wait(forDuration: 3, withRange: 3)
+        let delay = SKAction.wait(forDuration: 2, withRange: 2)
         let spawnSequence = SKAction.sequence([spawnRocks, delay])
         let spawnForever = SKAction.repeatForever(spawnSequence)
         self.run(spawnForever)
+    }
+    
+    func blinkWallaby() {
+        let currentTime = Date().timeIntervalSince1970
+        
+        if let lastPaused = lastPausedTime, currentTime - lastPaused < pauseCooldown {
+            return
+        }
+        
+        let fadeOut = SKAction.fadeOut(withDuration: 0.1)
+        let fadeIn = SKAction.fadeIn(withDuration: 0.1)
+        let blink = SKAction.sequence([fadeOut, fadeIn])
+        let blinkRepeat = SKAction.repeat(blink, count: 3)
+        
+        wallaby.run(blinkRepeat)
+    }
+    
+    func pauseGame() {
+        let currentTime = Date().timeIntervalSince1970
+        
+        if let lastPaused = lastPausedTime, currentTime - lastPaused < pauseCooldown {
+            return
+        }
+        lastPausedTime = currentTime
+        
+        self.view?.isPaused = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.view?.isPaused = false
+        }
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
@@ -165,6 +207,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if bodyA.node == wallaby || bodyB.node == wallaby {
             wallaby.texture = SKTexture(imageNamed: "WallabyDown")
             isJumping = false
+        }
+        
+        let wallabyBody: SKPhysicsBody
+        let otherBody: SKPhysicsBody
+        
+        if bodyA.node == wallaby {
+            wallabyBody = bodyA
+            otherBody = bodyB
+        } else if bodyB.node == wallaby {
+            wallabyBody = bodyB
+            otherBody = bodyA
+        } else {
+            return
+        }
+        
+        if wallabyBody.categoryBitMask == rockCategory || otherBody.categoryBitMask == rockCategory {
+            blinkWallaby()
+            pauseGame()
         }
     }
 }
